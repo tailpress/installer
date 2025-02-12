@@ -8,7 +8,7 @@ The installer has not been tested on Windows yet, but it should work. Let me kno
 
 It is possible to install WordPress through the installer. You will be prompted with this option.
 
-Note that this will setup WordPress, but you still need a local development enviroment for PHP and MySQL. If you use MacOS, try out [Laravel Valet](https://laravel.com/docs/8.x/valet).
+Note that this will setup WordPress, but you still need a local development environment for PHP and a database. If you use MacOS, try out [Laravel Valet](https://laravel.com/docs/11.x/valet) or [Herd](https://herd.laravel.com).
 
 ## Release notes
 

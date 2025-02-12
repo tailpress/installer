@@ -65,7 +65,7 @@ class NewCommand extends Command
         }
 
         $commands[] = "cd \"$workingDirectory\"";
-        $commands[] = "git clone -b master https://github.com/jeffreyvr/tailpress.git . --q";
+        $commands[] = "git clone -b 4.x https://github.com/jeffreyvr/tailpress.git . --q";
 
         if (($process = $this->runCommands($commands, $input, $output))->isSuccessful()) {
             if ($name = $input->getOption('name')) {

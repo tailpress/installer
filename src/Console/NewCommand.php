@@ -23,7 +23,6 @@ class NewCommand extends Command
             ->addOption('git', null, InputOption::VALUE_NONE, 'Initialize a Git repository')
             ->addOption('branch', null, InputOption::VALUE_REQUIRED, 'The branch that should be created for a new repository', $this->defaultBranch())
             ->addOption('wordpress', null, InputOption::VALUE_NONE, 'Install WordPress.')
-            ->addOption('compiler', null, InputOption::VALUE_OPTIONAL, 'Compiling tool can either be mix (Laravel Mix) or esbuild.', 'mix')
             ->addOption('dbname', null, InputOption::VALUE_OPTIONAL, 'The name of your database.')
             ->addOption('dbuser', null, InputOption::VALUE_OPTIONAL, 'The name of your database user.', 'root')
             ->addOption('dbpass', null, InputOption::VALUE_OPTIONAL, 'The password of your database.', 'root')
@@ -49,8 +48,6 @@ class NewCommand extends Command
             false
         ));
 
-        $compiler = $input->getOption('compiler');
-
         $folder = $input->getArgument('folder');
         $slug = $this->determineSlug($folder);
         $prefix = $this->determineSlug($folder, true);
@@ -71,11 +68,6 @@ class NewCommand extends Command
         $commands[] = "git clone -b master https://github.com/jeffreyvr/tailpress.git . --q";
 
         if (($process = $this->runCommands($commands, $input, $output))->isSuccessful()) {
-            if ($compiler === 'esbuild') {
-                $this->replaceFilesWithStubs($workingDirectory, 'esbuild', ['package.json', 'postcss.config.js']);
-                $this->deleteFiles($workingDirectory, ['webpack.mix.js', 'mix-manifest.json']);
-            }
-
             if ($name = $input->getOption('name')) {
                 $this->replaceInFile('TailPress', $name, $workingDirectory.'/style.css');
                 $this->replaceInFile('tailpress', $prefix, $workingDirectory.'/style.css');
@@ -169,13 +161,6 @@ class NewCommand extends Command
         $content = preg_replace('/'.$header.': (.*)/', $header . ': '.$value, $content);
 
         file_put_contents($stylesheet, $content);
-    }
-
-    protected function replaceFilesWithStubs(string $workingDirectory, string $stubFolder, array $stubs)
-    {
-        foreach ($stubs as $stub) {
-            file_put_contents($workingDirectory.'/' . $stub, file_get_contents(__DIR__ . '/../../stubs/'.$stubFolder.'/'.$stub.'.stub'));
-        }
     }
 
     protected function deleteFiles(string $workingDirectory, array $files)

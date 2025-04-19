@@ -1,8 +1,8 @@
 <?php
 
-namespace Jeffreyvr\TailPressInstaller\Console\Tests;
+namespace TailPress\Installer\Console\Tests;
 
-use Jeffreyvr\TailPressInstaller\Console\NewCommand;
+use TailPress\Installer\Console\NewCommand;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;

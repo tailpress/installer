@@ -1,6 +1,6 @@
 <?php
 
-namespace Jeffreyvr\TailPressInstaller\Console;
+namespace TailPress\Installer\Console;
 
 use RuntimeException;
 use Symfony\Component\Process\Process;

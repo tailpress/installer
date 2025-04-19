@@ -1,5 +1,5 @@
 {
-  "name": "jeffreyvanrossum/tailpress-installer",
+  "name": "tailpress/installer",
   "description": "TailPress installer package.",
   "license": "MIT",
   "authors": [
@@ -23,12 +23,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "Jeffreyvr\\TailPressInstaller\\": "src"
+      "TailPress\\Installer\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Jeffreyvr\\TailPressInstaller\\Console\\Tests\\": "tests/"
+      "TailPress\\Installer\\Console\\Tests\\": "tests/"
     }
   }
 }

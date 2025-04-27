@@ -56,14 +56,15 @@ class NewCommand extends Command
         if($installWordPress) {
             $dbName = $input->getOption('dbname') ?? (new SymfonyStyle($input, $output))->ask('What is the name of your database?', str_replace('-', '_', $folder));
             $dbUser = $input->getOption('dbuser') ?? (new SymfonyStyle($input, $output))->ask('What is the user of your database?', 'root');
-            $dbPass = $input->getOption('dbpass') ?? (new SymfonyStyle($input, $output))->ask('What is the password of your database?', 'root');
+            $dbPass = $input->getOption('dbpass') ?? (new SymfonyStyle($input, $output))->ask('What is the password of your database?');
             $dbHost = $input->getOption('dbhost') ?? (new SymfonyStyle($input, $output))->ask('What is the host of your database?', 'localhost');
         }
 
         $slug = $this->determineSlug($folder);
         $prefix = $this->determineSlug($folder, true);
 
-        $workingDirectory = $folder !== '.' ? getcwd().'/'.$folder : '.';
+        $baseDirectory = $folder !== '.' ? getcwd().'/'.$folder : '.';
+        $workingDirectory = $baseDirectory;
 
         if ($installWordPress) {
             $this->installWordPress($workingDirectory, $input, $output);
@@ -107,7 +108,7 @@ class NewCommand extends Command
             if ($installWordPress) {
                 $this->replaceInFile('database_name_here', $dbName, $workingDirectory.'/../../../wp-config.php');
                 $this->replaceInFile('username_here', $dbUser, $workingDirectory.'/../../../wp-config.php');
-                $this->replaceInFile('password_here', $dbPass, $workingDirectory.'/../../../wp-config.php');
+                $this->replaceInFile('password_here', $dbPass ?? '', $workingDirectory.'/../../../wp-config.php');
                 $this->replaceInFile('localhost', $dbHost, $workingDirectory.'/../../../wp-config.php');
                 $this->replaceInFile("define( 'WP_DEBUG', false );", "define( 'WP_DEBUG', false );\ndefine( 'WP_ENVIRONMENT_TYPE', 'development' );", $workingDirectory.'/../../../wp-config.php');
             }
@@ -135,7 +136,10 @@ class NewCommand extends Command
             }
 
             $output->writeln(PHP_EOL.'<comment>🌊 Your boilerplate is ready, go create something beautiful!</comment>');
-            $output->writeln(PHP_EOL.'<info>🏗️ Your theme is here: '.$workingDirectory.'</info>');
+            $output->writeln(PHP_EOL.'<info>🏗️ Your theme path: '.$workingDirectory.'</info>');
+            if($installWordPress) {
+                $output->writeln(PHP_EOL.'<info>📝 Your WordPress path: '.$baseDirectory.'</info>');
+            }
             $output->writeln(PHP_EOL.'<comment>✨ If you like TailPress, please consider starring the repo at https://github.com/tailpress/tailpress</comment>');
         }
 
